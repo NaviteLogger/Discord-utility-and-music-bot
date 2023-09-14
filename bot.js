@@ -5,7 +5,8 @@ const client = new Discord.Client({ intents: ['Guilds', 'GuildMessages'] });
 
 client.on('messageCreate', message => {
     console.log(`Received message: ${message.content} from ${message.author.tag}`); // Log received messages
-    if (message.content === '!ping') {
+    if (message.content == "!ping")
+    {
         console.log('Ping command received'); // Log when the ping command is received
         message.channel.send('Pong!')
             .then(msg => console.log('Sent reply: ', msg.content)) // Log if the message is sent successfully
