@@ -13,4 +13,8 @@ client.on('messageCreate', message => {
     }
 });
 
+client.on('debug', console.log);
+client.on('warn', console.warn);
+client.on('error', console.error);
+
 client.login(process.env.DISCORD_BOT_TOKEN);
