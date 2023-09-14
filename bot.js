@@ -5,6 +5,10 @@ const client = new Discord.Client({ intents: ['Guilds', 'GuildMessages'] });
 
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    const testChannel = client.channels.cache.get('YOUR_CHANNEL_ID_HERE');
+    if (testChannel) {
+        testChannel.send('Bot has started up');
+    }
 });
 
 client.on('messageCreate', message => {
