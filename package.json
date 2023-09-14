@@ -1,16 +1,20 @@
 {
-  "name": "discord-utility-and-music-bot",
+  "name": "discord-bot",
   "version": "1.0.0",
-  "description": "Discord utility and music bot",
-  "main": "index.js",
+  "description": "Discord music bot Feel free to PR if you have ideas how to improve this bot!",
+  "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NaviteLogger/Discord-utility-and-music-bot.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "discord.js": "^14.13.0",
-    "dotenv": "^16.3.1"
-  }
+  "bugs": {
+    "url": "https://github.com/NaviteLogger/Discord-utility-and-music-bot/issues"
+  },
+  "homepage": "https://github.com/NaviteLogger/Discord-utility-and-music-bot#readme"
 }
