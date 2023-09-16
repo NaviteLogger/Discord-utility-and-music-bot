@@ -19,10 +19,11 @@ client.on('messageCreate', async message => {
             prefix = '!'; //Set the prefix to the default one
         }
 
-        //Ignore messages that don't start with the prefix
+        //Ignore messages that don't start with the prefix - basically read/react only to commandss
         if(message.content.startsWith(prefix))
         {
             const args = message.content.slice(prefix.length).trim().split(/ +/); //Split the message into an array of arguments
+            const command = args.shift().toLowerCase(); //Get the command name, in lowercase
         }
     }
 });
