@@ -31,7 +31,7 @@ function getPrefix(guildId) {
                 }
                     else
                 {
-                    console.log(`Prefix for guild ${guildId} not found, default prefix will be used.`);
+                    console.log(`Prefix for guild ${guildId} not found, default prefix will be used to handle commands.`);
                     resolve(null); // resolve with null or a default prefix
                 }
             }
