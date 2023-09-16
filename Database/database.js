@@ -52,4 +52,8 @@ function setPrefix(guildId, prefix)
 }
 
 //Exporting the database handle
-module.exports = db;
+module.exports = {
+    db: db,
+    getPrefix: getPrefix,
+    setPrefix: setPrefix
+};
