@@ -1,6 +1,6 @@
 require('dotenv').config();
-const { getPrefix } = require('./Database/database.js');
 
+const { getPrefix } = require('./Database/database.js');
 const commands = require('./commands.js');
 const Discord = require('discord.js');
 
@@ -11,6 +11,8 @@ client.on('ready', () => {
 });
 
 client.on('messageCreate', async message => {
+    console.log(`Received message: ${message.content} from ${message.author.tag}`);
+    
     //Ignore messages from bots - basically read/react only to human messages
     if(message.guild)
     {
