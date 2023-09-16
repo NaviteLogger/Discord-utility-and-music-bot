@@ -1,3 +1,39 @@
+const { joinVoiceChannel, createAudioResource, AudioPlayerStatus, createAudioPlayer } = require('@discordjs/voice');
+const ytdl = require('ytdl-core');
+
+const { setPrefix } = require('./Database/database.js');
+
+//This function will deal with the play command
+async function playCommand(message, args) {
+    const voiceChannel = message.member.voice.channel;
+  
+    //The user must be present in the voice channel for the bot to join and play music
+    if (!voiceChannel) {
+      return message.channel.send('You need to be in a voice channel to play music!');
+    }
+  
+    const connection = joinVoiceChannel({
+      channelId: voiceChannel.id,
+      guildId: voiceChannel.guild.id,
+      adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+    });
+  
+    const url = args[0]; // assuming the URL is the first argument to the command
+    const stream = ytdl(url, { filter: 'audioonly' });
+    const resource = createAudioResource(stream);
+    const player = createAudioPlayer();
+  
+    player.play(resource);
+  
+    player.on(AudioPlayerStatus.Idle, () => {
+      connection.destroy();
+    });
+  
+    connection.subscribe(player);
+  
+    return message.reply(`Now playing: ${url}!`);
+}
+
 module.exports = {
     ping: {
         description: 'Bot responds with Pong!',
@@ -43,6 +79,14 @@ module.exports = {
           }
     
           message.channel.send(helpMessage);
+        },
+    },
+
+    play: {
+        description: 'Play a song from YouTube',
+        execute(message, args)
+        {
+            playCommand(message, args);
         },
     },
 };
