@@ -17,6 +17,8 @@ async function playCommand(message, args) {
       guildId: voiceChannel.guild.id,
       adapterCreator: voiceChannel.guild.voiceAdapterCreator,
     });
+
+    connection.on('debug', console.debug);
   
     connection.on('stateChange', (oldState, newState) => {
         console.log(`Connection transitioned from ${oldState.status} to ${newState.status}`);
