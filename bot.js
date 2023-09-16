@@ -3,6 +3,7 @@ const { joinVoiceChannel, createAudioResource, AudioPlayerStatus, createAudioPla
 const ytdl = require('ytdl-core');
 
 const { getPrefix, setPrefix } = require('./Database/database.js');
+const commands = require('./commands.js');
 const Discord = require('discord.js');
 
 const client = new Discord.Client({ intents: ['Guilds', 'GuildMessages', 'MessageContent', 'DirectMessages'] });
@@ -25,51 +26,22 @@ client.on('messageCreate', async message => {
         if(message.content.startsWith(prefix))
         {
             const args = message.content.slice(prefix.length).trim().split(/ +/); //Split the message into an array of arguments
-            const command = args.shift().toLowerCase(); //Get the command name, in lowercase
+            const commandName = args.shift().toLowerCase(); //Get the command name, in lowercase
             
-            /*
-                Here is where you can add command using the if statements, example below
-                Do this by comparing the command variable to the command name
-            */
-
-            //This switch statement will deal with different commands
-            switch(command)
+            const command = commands[commandName]; //Get the command object from the commands object
+            if(!command)
             {
-                case 'ping':
-                    message.channel.send('Pong!');
-                    break;
+                return message.channel.send(`There is no command with name ${commandName}!`);
+            }
 
-                case 'setprefix':
-                    if(message.member.permissions.has('ADMINISTRATOR'))
-                    {
-                        const newPrefix = args[0];
-
-                        if(newPrefix)
-                        {
-                            await setPrefix(message.guild.id, newPrefix);
-                            message.channel.send(`Prefix set to ${newPrefix}`);
-                        }
-                            else
-                        {
-                            message.channel.send('You must specify a new prefix!');
-                        }
-                    }
-                        else
-                    {
-                        message.channel.send('You must have admin privileges to use this command!');
-                    }
-                    break;
-
-                case 'play':
-                    await playCommand(message, args);
-                    break;
-
-                case 'help':
-                    
-
-                default:
-                    message.channel.send(`Unknown command ${command}. Please use ${prefix}help to get a list of commands.`);
-                    break;
+            try
+            {
+                command.execute(message, args, commands);
+            }
+                catch(error)
+            {
+                console.error(error);
+                message.channel.send('There was an error trying to execute the command:' + error.message);
             }
         }
     }
