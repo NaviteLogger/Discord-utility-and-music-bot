@@ -18,8 +18,15 @@ async function playCommand(message, args) {
       adapterCreator: voiceChannel.guild.voiceAdapterCreator,
     });
   
+    connection.on('stateChange', (oldState, newState) => {
+        console.log(`Connection transitioned from ${oldState.status} to ${newState.status}`);
+    });
+
     const url = args[0]; // assuming the URL is the first argument to the command
     const stream = ytdl(url, { filter: 'audioonly' });
+    console.log('Stream created with URL:', url);
+
+
     const resource = createAudioResource(stream);
     const player = createAudioPlayer();
   
@@ -27,6 +34,16 @@ async function playCommand(message, args) {
   
     player.on(AudioPlayerStatus.Idle, () => {
       connection.destroy();
+    });
+
+    player.on('error', error => {
+        console.error('Error in player:', error);
+        message.channel.send("An error occurred while playing the audio. Have a look at the bot's console for more details.");
+    });
+
+    connection.on('error', error => {
+        console.error('Error in connection:', error);
+        message.channel.send("An error occurred in the connection. Have a look at the bot's console for more details.");
     });
   
     connection.subscribe(player);
