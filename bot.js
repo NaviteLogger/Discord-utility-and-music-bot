@@ -35,6 +35,22 @@ client.on('messageCreate', async message => {
                 message.channel.send('Pong!');
             }
 
+            //This command can be used only by the admins to set the prefix of the bot
+            if(command = setprefix && message.member.permissions.has('ADMINISTRATOR'))
+            {
+                const newPrefix = args[0];
+
+                if(newPrefix)
+                {
+                    await setPrefix(message.guild.id, newPrefix);
+                    message.channel.send(`Prefix set to ${newPrefix}`);
+                }
+                    else
+                {
+                    message.channel.send('You must specify a new prefix!');
+                }
+            }
+
         }
     }
 });
