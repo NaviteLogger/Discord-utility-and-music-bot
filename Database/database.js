@@ -14,8 +14,7 @@ db.serialize(() => {
 });
 
 //This query is used to get the prefix of a guild
-function getPrefix(guildId)
-{
+function getPrefix(guildId) {
     return new Promise((resolve, reject) => {
         db.get("SELECT prefix FROM guilds WHERE guild_id = ?", [guildId], (error, row) => {
             if (error)
@@ -25,12 +24,21 @@ function getPrefix(guildId)
             }
                 else
             {
-                console.log(`Prefix of guild ${guildId} is ${row.prefix}`);
-                resolve(row.prefix);
+                if (row)
+                {
+                    console.log(`Prefix of guild ${guildId} is ${row.prefix}`);
+                    resolve(row.prefix);
+                }
+                    else
+                {
+                    console.log(`Prefix for guild ${guildId} not found, default prefix will be used.`);
+                    resolve(null); // resolve with null or a default prefix
+                }
             }
         });
     });
 }
+
 
 //This query is used to set the prefix of a guild
 function setPrefix(guildId, prefix)
