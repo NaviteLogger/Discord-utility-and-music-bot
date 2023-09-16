@@ -14,7 +14,7 @@ async function playCommand(message, args) {
   
     const connection = joinVoiceChannel({
       channelId: voiceChannel.id,
-      guildId: voiceChannel.guild.id,
+      guildId: voiceChannel.guild.id.toString(),
       adapterCreator: voiceChannel.guild.voiceAdapterCreator,
     });
 
@@ -103,7 +103,7 @@ module.exports = {
 
     play: {
         description: 'Play a song from YouTube',
-        execute(message, args)
+        async execute(message, args)
         {
             playCommand(message, args);
         },
