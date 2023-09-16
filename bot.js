@@ -32,27 +32,45 @@ client.on('messageCreate', async message => {
                 Do this by comparing the command variable to the command name
             */
 
-            if(command === ping)
+            //This switch statement will deal with different commands
+            switch(command)
             {
-                message.channel.send('Pong!');
+                case 'ping':
+                    message.channel.send('Pong!');
+                    break;
+
+                case 'setprefix':
+                    if(message.member.permissions.has('ADMINISTRATOR'))
+                    {
+                        const newPrefix = args[0];
+
+                        if(newPrefix)
+                        {
+                            await setPrefix(message.guild.id, newPrefix);
+                            message.channel.send(`Prefix set to ${newPrefix}`);
+                        }
+                            else
+                        {
+                            message.channel.send('You must specify a new prefix!');
+                        }
+                    }
+                        else
+                    {
+                        message.channel.send('You must have admin privileges to use this command!');
+                    }
+                    break;
+
+                case 'play':
+                    await playCommand(message, args);
+                    break;
+
+                case 'help':
+                    
+
+                default:
+                    message.channel.send(`Unknown command ${command}. Please use ${prefix}help to get a list of commands.`);
+                    break;
             }
-
-            //This command can be used only by the admins to set the prefix of the bot
-            if(command === setprefix && message.member.permissions.has('ADMINISTRATOR'))
-            {
-                const newPrefix = args[0];
-
-                if(newPrefix)
-                {
-                    await setPrefix(message.guild.id, newPrefix);
-                    message.channel.send(`Prefix set to ${newPrefix}`);
-                }
-                    else
-                {
-                    message.channel.send('You must specify a new prefix!');
-                }
-            }
-
         }
     }
 });
@@ -61,6 +79,7 @@ client.on('messageCreate', async message => {
 async function playCommand(message, args) {
     const voiceChannel = message.member.voice.channel;
   
+    //The user must be present in the voice channel for the bot to join and play music
     if (!voiceChannel) {
       return message.channel.send('You need to be in a voice channel to play music!');
     }
