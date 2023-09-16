@@ -38,7 +38,7 @@ client.on('messageCreate', async message => {
             }
 
             //This command can be used only by the admins to set the prefix of the bot
-            if(command = setprefix && message.member.permissions.has('ADMINISTRATOR'))
+            if(command === setprefix && message.member.permissions.has('ADMINISTRATOR'))
             {
                 const newPrefix = args[0];
 
