@@ -85,7 +85,7 @@ async function playCommand(message, args) {
     connection.subscribe(player);
   
     return message.reply(`Now playing: ${url}!`);
-  }
+}
 
 client.on('debug', console.log);
 client.on('warn', console.warn);
