@@ -32,5 +32,24 @@ function getPrefix(guildIdd)
     });
 }
 
+//This query is used to set the prefix of a guild
+function setPrefix(guildId, prefix)
+{
+    return new Promise((resolve, reject) => {
+     db.run("INSERT INTO guilds (guild_id, prefix) VALUES (?, ?) ON CONFLICT(guild_id) DO UPDATE SET prefix = ?", [guildId, prefix, prefix], (error) => {
+            if (error)
+            {
+                console.error(error.message);
+                reject(error);
+            }
+                else
+            {
+                console.log(`Prefix of guild ${guildId} set to ${prefix}`);
+                resolve(prefix);
+            }
+        });   
+    });
+}
+
 //Exporting the database handle
 module.exports = db;
