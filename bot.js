@@ -57,6 +57,36 @@ client.on('messageCreate', async message => {
     }
 });
 
+//This function will deal with the play command
+async function playCommand(message, args) {
+    const voiceChannel = message.member.voice.channel;
+  
+    if (!voiceChannel) {
+      return message.channel.send('You need to be in a voice channel to play music!');
+    }
+  
+    const connection = joinVoiceChannel({
+      channelId: voiceChannel.id,
+      guildId: voiceChannel.guild.id,
+      adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+    });
+  
+    const url = args[0]; // assuming the URL is the first argument to the command
+    const stream = ytdl(url, { filter: 'audioonly' });
+    const resource = createAudioResource(stream);
+    const player = createAudioPlayer();
+  
+    player.play(resource);
+  
+    player.on(AudioPlayerStatus.Idle, () => {
+      connection.destroy();
+    });
+  
+    connection.subscribe(player);
+  
+    return message.reply(`Now playing: ${url}!`);
+  }
+
 client.on('debug', console.log);
 client.on('warn', console.warn);
 client.on('error', console.error);
