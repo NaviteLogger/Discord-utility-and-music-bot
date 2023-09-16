@@ -19,6 +19,7 @@
   "homepage": "https://github.com/NaviteLogger/Discord-utility-and-music-bot#readme",
   "dependencies": {
     "discord.js": "^14.13.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "sqlite3": "^5.1.6"
   }
 }
