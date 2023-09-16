@@ -24,6 +24,17 @@ client.on('messageCreate', async message => {
         {
             const args = message.content.slice(prefix.length).trim().split(/ +/); //Split the message into an array of arguments
             const command = args.shift().toLowerCase(); //Get the command name, in lowercase
+            
+            /*
+                Here is where you can add command using the if statements, example below
+                Do this by comparing the command variable to the command name
+            */
+
+            if(command === ping)
+            {
+                message.channel.send('Pong!');
+            }
+
         }
     }
 });
