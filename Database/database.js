@@ -14,7 +14,7 @@ db.serialize(() => {
 });
 
 //This query is used to get the prefix of a guild
-function getPrefix(guildIdd)
+function getPrefix(guildId)
 {
     return new Promise((resolve, reject) => {
         db.get("SELECT prefix FROM guilds WHERE guild_id = ?", [guildId], (error, row) => {
