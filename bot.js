@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const db = require('./Database/database.js');
+const { getPrefix, setPrefix } = require('./Database/database.js');
 const Discord = require('discord.js');
 
 const client = new Discord.Client({ intents: ['Guilds', 'GuildMessages', 'MessageContent', 'DirectMessages'] });
