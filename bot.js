@@ -1,4 +1,6 @@
 require('dotenv').config();
+const { joinVoiceChannel, createAudioResource, AudioPlayerStatus, createAudioPlayer } = require('@discordjs/voice');
+const ytdl = require('ytdl-core');
 
 const { getPrefix, setPrefix } = require('./Database/database.js');
 const Discord = require('discord.js');
