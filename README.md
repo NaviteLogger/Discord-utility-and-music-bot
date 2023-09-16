@@ -1,5 +1,5 @@
 # Discord-music-bot
 Discord music bot made with JavaScript
 
-ffmpeg is required to run this bot
-libtool as well
+- FFmpeg is required to run this bot
+- libtool as well
