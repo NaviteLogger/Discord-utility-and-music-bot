@@ -4,7 +4,7 @@ const { getPrefix } = require('./Database/database.js');
 const commands = require('./commands.js');
 const Discord = require('discord.js');
 
-const client = new Discord.Client({ intents: ['Guilds', 'GuildMessages', 'MessageContent', 'DirectMessages'] });
+const client = new Discord.Client({ intents: ['Guilds', 'GuildMessages', 'GuildVoiceStates', 'MessageContent', 'DirectMessages'] });
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
