@@ -1,24 +1,24 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const { getPrefix } = require('./Database/database.js');
-const commands = require('./commands.js');
-const Discord = require('discord.js');
+const { getPrefix } = require("./Database/database.js");
+const commands = require("./commands.js");
+const Discord = require("discord.js");
 
 const client = new Discord.Client({
   intents: [
-    'Guilds',
-    'GuildMessages',
-    'GuildVoiceStates',
-    'MessageContent',
-    'DirectMessages',
+    "Guilds",
+    "GuildMessages",
+    "GuildVoiceStates",
+    "MessageContent",
+    "DirectMessages",
   ],
 });
 
-client.on('ready', () => {
+client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('messageCreate', async (message) => {
+client.on("messageCreate", async (message) => {
   console.log(
     `Received message: ${message.content} from ${message.author.tag}`
   );
@@ -27,7 +27,7 @@ client.on('messageCreate', async (message) => {
   if (message.guild) {
     let prefix = await getPrefix(message.guild.id);
     if (!prefix) {
-      prefix = '!'; //Set the prefix to the default one
+      prefix = "!"; //Set the prefix to the default one
     }
 
     //Ignore messages that don't start with the prefix - basically read/react only to commandss
@@ -47,15 +47,15 @@ client.on('messageCreate', async (message) => {
       } catch (error) {
         console.error(error);
         message.channel.send(
-          'There was an error trying to execute the command:' + error.message
+          "There was an error trying to execute the command:" + error.message
         );
       }
     }
   }
 });
 
-client.on('debug', console.log);
-client.on('warn', console.warn);
-client.on('error', console.error);
+client.on("debug", console.log);
+client.on("warn", console.warn);
+client.on("error", console.error);
 
 client.login(process.env.DISCORD_BOT_TOKEN);

@@ -1,27 +1,27 @@
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require("sqlite3").verbose();
 
 //Opening of the database handle
 let db = new sqlite3.Database(
-  './Database/botDatabase.db',
+  "./Database/botDatabase.db",
   sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
   (error) => {
     if (error) {
       console.error(error.message);
     }
-    console.log('Successfully connected to the SQLite database.');
+    console.log("Successfully connected to the SQLite database.");
   }
 );
 
 //Initialization of the database
 db.serialize(() => {
-  db.run('CREATE TABLE IF NOT EXISTS guilds (guild_id TEXT, prefix TEXT)');
+  db.run("CREATE TABLE IF NOT EXISTS guilds (guild_id TEXT, prefix TEXT)");
 });
 
 //This query is used to get the prefix of a guild
 function getPrefix(guildId) {
   return new Promise((resolve, reject) => {
     db.get(
-      'SELECT prefix FROM guilds WHERE guild_id = ?',
+      "SELECT prefix FROM guilds WHERE guild_id = ?",
       [guildId],
       (error, row) => {
         if (error) {
@@ -47,7 +47,7 @@ function getPrefix(guildId) {
 function setPrefix(guildId, prefix) {
   return new Promise((resolve, reject) => {
     db.run(
-      'INSERT INTO guilds (guild_id, prefix) VALUES (?, ?) ON CONFLICT(guild_id) DO UPDATE SET prefix = ?',
+      "INSERT INTO guilds (guild_id, prefix) VALUES (?, ?) ON CONFLICT(guild_id) DO UPDATE SET prefix = ?",
       [guildId, prefix, prefix],
       (error) => {
         if (error) {
