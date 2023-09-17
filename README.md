@@ -18,8 +18,8 @@ Local DJ is a Discord bot that enhances your server's music-listening experience
 1. Clone the repository to your local machine using `git clone https://github.com/NaviteLogger/Discord-music-bot.git`.
 2. Navigate to the project directory: `cd <project_directory_name>`.
 3. Install the necessary software: `sudo apt install ffmpeg libtool`.
-4. Install the necessary npm packages: `npm install`. Make sure that you have Node Package Manager installed. 
-5. Create a  `.env` file and fill in your Discord Bot Token: `DISCORD_BOT_TOKEN=<your_token_from_discord_developer_portal>`.
+4. Install the necessary npm packages: `npm install`. Make sure that you have Node Package Manager installed.
+5. Create a `.env` file and fill in your Discord Bot Token: `DISCORD_BOT_TOKEN=<your_token_from_discord_developer_portal>`.
 6. Start the bot using `node bot.js`.
 
 ## Commands Documentation
