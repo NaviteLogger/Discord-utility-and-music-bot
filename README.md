@@ -10,8 +10,8 @@ Local DJ is a Discord bot that enhances your server's music-listening experience
 
 - Node.js (version 14 or higher)
 - npm (version 6 or higher)
-- A Discord Bot Token
-- FFmpeg and libtool 
+- A Discord Bot Token (obtained from 'https://discord.com/developers/applications')
+- FFmpeg, libtool and libsodium-wrappers
 
 ### Setup
 
