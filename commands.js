@@ -278,4 +278,11 @@ module.exports = {
       volumeControlCommand(message, args);
     },
   },
+
+  search: {
+    description: "Search for a video on YouTube",
+    async execute(message, args) {
+      searchCommand(message, args);
+    },
+  },
 };
