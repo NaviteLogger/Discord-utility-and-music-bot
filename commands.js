@@ -91,6 +91,45 @@ async function play(connection, message, args) {
   return message.reply(`Now playing: ${url}!`);
 }
 
+async function skipCommand(message, args) {
+  if (isPlaying) {
+    message.channel.send("Skipping current song!");
+    connection.destroy();
+    isPlaying = false;
+  } else {
+    message.channel.send("There is no song to skip!");
+  }
+}
+
+async function stopCommand(message, args) {
+  if (isPlaying) {
+    message.channel.send("Stopping playback!");
+    connection.destroy();
+    isPlaying = false;
+    queue = []; //Empty the queue
+  } else {
+    message.channel.send("There is no song to stop!");
+  }
+}
+
+async function pauseCommand(message, args) {
+  if (isPlaying) {
+    message.channel.send("Pausing playback!");
+    connection.pause();
+  } else {
+    message.channel.send("There is no song to pause!");
+  }
+}
+
+async function resumeCommand(message, args) {
+  if (isPlaying) {
+    message.channel.send("Resuming playback!");
+    connection.resume();
+  } else {
+    message.channel.send("There is no song to resume!");
+  }
+}
+
 module.exports = {
   ping: {
     description: "Bot responds with Pong!",
@@ -141,27 +180,28 @@ module.exports = {
   skip: {
     description: "Skip the current song",
     async execute(message, args) {
-      if (isPlaying) {
-        message.channel.send("Skipping current song!");
-        connection.destroy();
-        isPlaying = false;
-      } else {
-        message.channel.send("There is no song to skip!");
-      }
+      skipCommand(message, args);
     },
   },
 
   stop: {
     description: "Stop playing queued songs",
     async execute(message, args) {
-      if (isPlaying) {
-        message.channel.send("Stopping playback!");
-        connection.destroy();
-        isPlaying = false;
-        queue = [];
-      } else {
-        message.channel.send("There is no song to stop!");
-      }
+      stopCommand(message, args);
     },
   },
+
+  pause: {
+    description: "Pause the currently playing song",
+    async execute(message, args) {
+      pauseCommand(message, args);
+    },
+  },
+
+  resume: {
+    description: "Resume the currently playing song",
+    async execute(message, args) {
+      resumeCommand(message, args);
+    },
+  }
 };
