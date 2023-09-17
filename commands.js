@@ -158,10 +158,10 @@ async function volumeControlCommand(message, args) {
 
 async function searchCommand(message, args) {
   //Retrieve the search term from the arguments
-  const searchTerm = args.join(' ');
+  const searchTerm = args.join(" ");
 
-  if(!searchTerm) {
-    return message.channel.send('You must specify a search term!');
+  if (!searchTerm) {
+    return message.channel.send("You must specify a search term!");
   }
 
   try {
@@ -169,27 +169,31 @@ async function searchCommand(message, args) {
     const videos = await YouTube.search(searchTerm, { limit: 5 });
 
     //Check if any videos were found
-    if(videos.length === 0) {
-      return message.channel.send('No videos found!');
+    if (videos.length === 0) {
+      return message.channel.send("No videos found!");
     }
 
     //Create a string with the video titles to display
-    let content = 'Here are the top 5 results:\n';
+    let content = "Here are the top 5 results:\n";
     videos.forEach((video, index) => {
       content += `${index + 1}: [${video.title}](${video.url})\n`;
     });
-    content += 'Please enter the number of the video you want to play!';
+    content += "Please enter the number of the video you want to play!";
 
     //Send the message with the video titles
     message.channel.send(content);
 
     //Create a filter to check if the user's message is a number between 1 and 5
-    const filter = (response) => !isNaN(response.content) && response.content < 6 && response.content > 0;
-    
-    //Create a message collector
-    const collector = message.channel.createMessageCollector({ filter, time: 30000 });
+    const filter = (response) =>
+      !isNaN(response.content) && response.content < 6 && response.content > 0;
 
-    collector.on('collect', async (response) => {
+    //Create a message collector
+    const collector = message.channel.createMessageCollector({
+      filter,
+      time: 30000,
+    });
+
+    collector.on("collect", async (response) => {
       const videoIndex = parseInt(response.content) - 1;
       const url = videos[videoIndex].url;
 
@@ -197,14 +201,14 @@ async function searchCommand(message, args) {
       play(connection, message, url);
     });
 
-    collector.on('end', (collected, reason) => {
-      if(reason === 'time') {
-        message.channel.send('Video selection timed out!');
+    collector.on("end", (collected, reason) => {
+      if (reason === "time") {
+        message.channel.send("Video selection timed out!");
       }
     });
-  } catch(error) {
+  } catch (error) {
     console.error(error);
-    message.channel.send('An error occurred while searching for videos!');
+    message.channel.send("An error occurred while searching for videos!");
   }
 }
 
