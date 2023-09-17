@@ -8,9 +8,12 @@ const ytdl = require("ytdl-core");
 
 const { setPrefix } = require("./Database/database.js");
 
+//Create an array to store the queue of songs
+let queue = [];
+
 //This function will deal with the play command
 async function playCommand(message, args) {
-  const voiceChannel = message.member.voice.channel;
+  const voiceChannel = message.member.voice.channel; //Get the user's voice channel
 
   //The user must be present in the voice channel for the bot to join and play music
   if (!voiceChannel) {
@@ -19,30 +22,33 @@ async function playCommand(message, args) {
     );
   }
 
+  //Set up the connection to the voice channel
   const connection = joinVoiceChannel({
     channelId: voiceChannel.id,
     guildId: voiceChannel.guild.id.toString(),
     adapterCreator: voiceChannel.guild.voiceAdapterCreator,
   });
 
+  //Debugging
   connection.on("debug", console.debug);
 
+  //Log the connection state changes
   connection.on("stateChange", (oldState, newState) => {
     console.log(
       `Connection transitioned from ${oldState.status} to ${newState.status}`
     );
   });
 
-  const url = args[0]; // assuming the URL is the first argument to the command
-  const stream = ytdl(url, { filter: "audioonly" });
-  console.log("Stream created with URL:", url);
+  const url = args[0]; //Assuming the URL is the first argument passed to the command
+  const stream = ytdl(url, { filter: "audioonly" }); //Create a stream from the YouTube video
+  console.log("Stream created with URL:", url); //Debugging
 
-  const resource = createAudioResource(stream);
-  const player = createAudioPlayer();
+  const resource = createAudioResource(stream); //Create an audio resource from the stream 
+  const player = createAudioPlayer(); //Create an audio player
 
-  player.play(resource);
+  player.play(resource); //Play the audio resource
 
-  player.on(AudioPlayerStatus.Idle, () => {
+  player.on(AudioPlayerStatus.Idle, () => { //When the player is idle, destroy the connection
     connection.destroy();
   });
 
