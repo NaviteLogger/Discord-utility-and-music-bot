@@ -131,10 +131,23 @@ module.exports = {
     },
   },
 
-  play: {
+  playCommand: {
     description: "Play a song from YouTube",
     async execute(message, args) {
       playCommand(message, args);
+    },
+  },
+
+  skip: {
+    description: "Skip the current song",
+    async execute(message, args) {
+      if (isPlaying) {
+        message.channel.send("Skipping current song!");
+        connection.destroy();
+        isPlaying = false;
+      } else {
+        message.channel.send("There is no song to skip!");
+      }
     },
   },
 };
