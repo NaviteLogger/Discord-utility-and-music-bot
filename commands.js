@@ -11,8 +11,23 @@ const { setPrefix } = require("./Database/database.js");
 //Create an array to store the queue of songs
 let queue = [];
 
-//This function will deal with the play command
+//Create a boolean to store whether a song is currently playing
+let isPlaying = false;
+
 async function playCommand(message, args) {
+  const url = args[0]; //Assuming the URL is the first argument passed to the command
+
+  if (isPlaying) {
+    queue.push(url);
+    message.reply(`Added ${url} to the queue!`);
+  } else {
+    isPlaying = true;
+    play(connection, url, message);
+  }
+}
+
+//This function will deal with the play command
+async function play(connection, message, args) {
   const voiceChannel = message.member.voice.channel; //Get the user's voice channel
 
   //The user must be present in the voice channel for the bot to join and play music
@@ -32,7 +47,7 @@ async function playCommand(message, args) {
   //Debugging
   connection.on("debug", console.debug);
 
-  //Log the connection state changes
+  //Log the connection state changes - this may produce a lot of console output, so consider commenting it out
   connection.on("stateChange", (oldState, newState) => {
     console.log(
       `Connection transitioned from ${oldState.status} to ${newState.status}`
@@ -43,13 +58,18 @@ async function playCommand(message, args) {
   const stream = ytdl(url, { filter: "audioonly" }); //Create a stream from the YouTube video
   console.log("Stream created with URL:", url); //Debugging
 
-  const resource = createAudioResource(stream); //Create an audio resource from the stream 
+  const resource = createAudioResource(stream); //Create an audio resource from the stream
   const player = createAudioPlayer(); //Create an audio player
 
   player.play(resource); //Play the audio resource
 
-  player.on(AudioPlayerStatus.Idle, () => { //When the player is idle, destroy the connection
-    connection.destroy();
+  player.on(AudioPlayerStatus.Idle, () => {
+    if (queue.length > 0) {
+      play(connection, queue.shift(), message);
+    } else {
+      connection.destroy();
+      isPlaying = false;
+    }
   });
 
   player.on("error", (error) => {
