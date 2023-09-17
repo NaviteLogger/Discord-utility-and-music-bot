@@ -144,6 +144,15 @@ async function volumeControlCommand(message, args) {
   }
 }
 
+async function searchCommand(message, args) {
+  //Retrieve the search term from the arguments
+  const searchTerm = args.join(' ');
+
+  if(!searchTerm) {
+    return message.channel.send('You must specify a search term!');
+  }
+}
+
 module.exports = {
   ping: {
     description: "Bot responds with Pong!",
