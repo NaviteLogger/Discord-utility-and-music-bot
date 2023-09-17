@@ -150,4 +150,18 @@ module.exports = {
       }
     },
   },
+
+  stop: {
+    description: "Stop playing queued songs",
+    async execute(message, args) {
+      if (isPlaying) {
+        message.channel.send("Stopping playback!");
+        connection.destroy();
+        isPlaying = false;
+        queue = [];
+      } else {
+        message.channel.send("There is no song to stop!");
+      }
+    },
+  },
 };
