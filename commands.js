@@ -5,6 +5,7 @@ const {
   createAudioPlayer,
 } = require("@discordjs/voice");
 const ytdl = require("ytdl-core");
+const YouTube = require("youtube-sr");
 
 const { setPrefix } = require("./Database/database.js");
 
@@ -150,6 +151,49 @@ async function searchCommand(message, args) {
 
   if(!searchTerm) {
     return message.channel.send('You must specify a search term!');
+  }
+
+  try {
+    //Search for videos based on the search term
+    const videos = await YouTube.search(searchTerm, { limit: 5 });
+
+    //Check if any videos were found
+    if(videos.length === 0) {
+      return message.channel.send('No videos found!');
+    }
+
+    //Create a string with the video titles to display
+    let content = 'Here are the top 5 results:\n';
+    videos.forEach((video, index) => {
+      content += `${index + 1}: [${video.title}](${video.url})\n`;
+    });
+    content += 'Please enter the number of the video you want to play!';
+
+    //Send the message with the video titles
+    message.channel.send(content);
+
+    //Create a filter to check if the user's message is a number between 1 and 5
+    const filter = (response) => !isNaN(response.content) && response.content < 6 && response.content > 0;
+    
+    //Create a message collector
+    const collector = message.channel.createMessageCollector({ filter, time: 30000 });
+
+    collector.on('collect', async (response) => {
+      const videoIndex = parseInt(response.content) - 1;
+      const url = videos[videoIndex].url;
+
+      //Play the video
+      play(connection, message, url);
+    });
+
+    collector.on('end', (collected, reason) => {
+      if(reason === 'time') {
+        message.channel.send('Video selection timed out!');
+      }
+    });
+  } catch(error) {
+    console.error(error);
+    message.channel.send('An error occurred while searching for videos!');
   }
 }
 
