@@ -2,7 +2,7 @@
 
 ## Description
 
-Local DJ is a Discord bot designed to enhance your server's music listening experience. With Local DJ, users can play YouTube videos directly in the voice channel, control playback, and queue up playlists for endless entertainment. Built with Node.js and utilizing the Discord.js library, it offers a seamless and efficient music streaming setup on your Discord server.
+Local DJ is a Discord bot that enhances your server's music-listening experience. With Local DJ, users can play YouTube videos directly in the voice channel, control playback, and queue up playlists for endless entertainment. Built with Node.js and utilizing the Discord.js library, it offers a seamless and efficient music streaming setup on your Discord server.
 
 ## Installation
 
@@ -17,8 +17,8 @@ Local DJ is a Discord bot designed to enhance your server's music listening expe
 
 1. Clone the repository to your local machine using `git clone https://github.com/NaviteLogger/Discord-music-bot.git`.
 2. Navigate to the project directory: `cd <project_directory_name>`.
-3. Install the necessary npm packages: `npm install`. Make sure that you have Node Package Managed installed. 
-4. Create an  `.env` file and fill in your Discord Bot Token: DISCORD_BOT_TOKEN=<your_token_from_discord_developer_portal>.
+3. Install the necessary npm packages: `npm install`. Make sure that you have Node Package Manager installed. 
+4. Create a  `.env` file and fill in your Discord Bot Token: `DISCORD_BOT_TOKEN=<your_token_from_discord_developer_portal>`.
 5. Start the bot using `node bot.js`.
 
 ## Commands Documentation
