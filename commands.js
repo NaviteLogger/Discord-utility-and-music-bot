@@ -94,6 +94,17 @@ async function play(connection, message, args) {
 
 async function skipCommand(message, args) {
   if (isPlaying) {
+    /*
+      There is an option to add a role check here to allow only certain users to skip songs
+      For example, you could add a DJ role and only allow users with that role to skip songs
+      Upon creating a DJ role in the server settings, paste the role ID in the code below
+
+      if (message.member.roles.cache.has('DJ_ROLE_ID')) {
+      // Execute DJ command (e.g. paster the skip command here)
+      } else {
+        message.reply('You need the DJ role to use this command.');
+      }
+    */
     message.channel.send("Skipping current song!");
     connection.destroy();
     isPlaying = false;
