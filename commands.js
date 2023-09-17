@@ -130,6 +130,20 @@ async function resumeCommand(message, args) {
   }
 }
 
+async function volumeControlCommand(message, args) {
+  if (isPlaying) {
+    const volume = args[0];
+    if (volume) {
+      message.channel.send(`Setting volume to ${volume}!`);
+      connection.setVolume(volume);
+    } else {
+      message.channel.send(`The current volume is ${connection.state.volume}!`);
+    }
+  } else {
+    message.channel.send("There is no song to set the volume for!");
+  }
+}
+
 module.exports = {
   ping: {
     description: "Bot responds with Pong!",
@@ -203,5 +217,12 @@ module.exports = {
     async execute(message, args) {
       resumeCommand(message, args);
     },
-  }
+  },
+
+  volume: {
+    description: "Set the volume of the currently playing song",
+    async execute(message, args) {
+      volumeControlCommand(message, args);
+    },
+  },
 };
