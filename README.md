@@ -2,13 +2,14 @@
 A simple discord music bot using discord.js for you to play music in your discord server voice channels.
 
 ## Table of Contents
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Commands](#commands)
-- [Contributing](#contributing)
-- [License](#license)
+- [Discord-Music-Bot](#Discord-music-bot)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Usage](#usage)
+  - [Commands](#commands)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Prerequisites
 
